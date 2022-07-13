@@ -8,7 +8,7 @@
 PRODUCT_NAME = mypetdiary
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.mypetdiary
+PRODUCT_BUNDLE_IDENTIFIER = com.sionfactory.mypetdiary
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2022 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2022 com.sionfactory. All rights reserved.

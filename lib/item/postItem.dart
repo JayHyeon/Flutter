@@ -1,6 +1,6 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
+import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
 
 class PostItem extends StatefulWidget {
   const PostItem({Key? key}) : super(key: key);
@@ -10,6 +10,12 @@ class PostItem extends StatefulWidget {
 }
 
 class PostItemState extends State<PostItem> {
+  late int pageLength;
+  late int currentPageIndex;
+  late double initRatio;
+
+  PageController mController = PageController();
+
   List<String> images = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa2tbCr7gezhFKEnWHBogLgawwdLXF8-vosA&usqp=CAU',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK0IS7rxVYqDHm1a___wZLArB7ld5LHWmOXA&usqp=CAU',
@@ -17,6 +23,17 @@ class PostItemState extends State<PostItem> {
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMVyeldDaPI_3jvWk4qcryRJWUB60PCIdBw&usqp=CAU',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1rQbRDR8lndYo14gTs_X-aR6MnTLNeARrD-44qlHhu-luAGlnuSMBO1dOdmzfjHrrfZU&usqp=CAU',
   ];
+
+  List range = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+
+  @override
+  void initState() {
+    pageLength = 1 + Random().nextInt(5);
+    currentPageIndex = 0;
+    initRatio = range[Random().nextInt(16)] * 0.1;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +63,56 @@ class PostItemState extends State<PostItem> {
           ],
         ),
       ),
-      Container(
-        width: MediaQuery.of(context).size.width,
-        color: Colors.white10,
-        child: Image.network(
-          images[Random().nextInt(5)],
-          fit: BoxFit.contain,
-        ),
+      AspectRatio(
+        aspectRatio: initRatio,
+        child: Stack(children: [
+          PageView.builder(
+            itemBuilder: (BuildContext context, int index) {
+              return Image.network(
+                images[Random().nextInt(5)],
+                fit: BoxFit.cover,
+              );
+            },
+            controller: mController,
+            itemCount: pageLength,
+            onPageChanged: (int value) {
+              setState(() {
+                currentPageIndex = value;
+              });
+            },
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ScrollingPageIndicator(
+                  dotColor: Colors.grey,
+                  dotSelectedColor: Colors.deepPurple,
+                  dotSize: 8,
+                  dotSelectedSize: 10,
+                  dotSpacing: 12,
+                  controller: mController,
+                  itemCount: pageLength,
+                  orientation: Axis.horizontal),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              margin: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(500)),
+              child: Text(
+                '${currentPageIndex + 1}/$pageLength',
+                style: const TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ]),
       ),
       Container(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -74,7 +134,6 @@ class PostItemState extends State<PostItem> {
                   Icon(Icons.send),
                 ],
               ),
-              const Text('indic'),
               const Icon(Icons.bookmark_border)
             ],
           )),

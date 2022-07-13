@@ -44,6 +44,7 @@ class MainContainerState extends State<MainContainer> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('메인페이지'),
+        centerTitle: true,
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
