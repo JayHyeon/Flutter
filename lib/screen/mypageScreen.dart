@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'dart:convert';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mypetdiary/global.dart';
 import 'package:mypetdiary/container/loginContainer.dart';
 
 class MypageScreen extends StatefulWidget {
-  const MypageScreen({Key? key}) : super(key: key);
+  const MypageScreen({Key? key, required this.indexChangeCallback})
+      : super(key: key);
+  final Function(int index) indexChangeCallback;
 
   @override
   MypageScreenState createState() => MypageScreenState();
@@ -13,6 +15,9 @@ class MypageScreen extends StatefulWidget {
 
 class MypageScreenState extends State<MypageScreen> {
   static final storage = FlutterSecureStorage();
+
+  bool visibleLoginBtn = true;
+  bool visibleLogoutBtn = false;
 
   @override
   void initState() {
@@ -22,10 +27,28 @@ class MypageScreenState extends State<MypageScreen> {
   }
 
   void loginCheck() async {
-    String? jsonString = await storage.read(key: "login");
-    if (jsonString != null) {
-      Map<String, dynamic> loginInfo = jsonDecode(jsonString);
-    }
+    getLoginInfo().then((res) => {
+          if (res.isNotEmpty)
+            {
+              setState(() {
+                visibleLoginBtn = false;
+                visibleLogoutBtn = true;
+              })
+            }
+          else
+            {
+              setState(() {
+                visibleLoginBtn = true;
+                visibleLogoutBtn = false;
+              })
+            }
+        });
+  }
+
+  void requestLogout() {
+    storage
+        .delete(key: "login")
+        .then((value) => {widget.indexChangeCallback(0)});
   }
 
   @override
@@ -33,15 +56,28 @@ class MypageScreenState extends State<MypageScreen> {
     return Stack(
       children: [
         const Text("Mypage"),
-        Align(
-          alignment: Alignment.center,
-          child: GestureDetector(
-            onTap: () {
-              Get.to(const LoginContainer());
-            },
-            child: const Text('Log in'),
-          ),
-        )
+        Visibility(
+            visible: visibleLoginBtn,
+            child: Align(
+              alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: () {
+                  Get.to(const LoginContainer());
+                },
+                child: const Text('Log in'),
+              ),
+            )),
+        Visibility(
+            visible: visibleLogoutBtn,
+            child: Align(
+              alignment: Alignment.center,
+              child: GestureDetector(
+                onTap: () {
+                  requestLogout();
+                },
+                child: const Text('Log out'),
+              ),
+            )),
       ],
     );
   }

@@ -1,9 +1,12 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:mypetdiary/models/postModel.dart';
 import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
 
 class PostItem extends StatefulWidget {
-  const PostItem({Key? key}) : super(key: key);
+  const PostItem(Post this.post, {Key? key}) : super(key: key);
+
+  final post;
 
   @override
   PostItemState createState() => PostItemState();
@@ -12,7 +15,6 @@ class PostItem extends StatefulWidget {
 class PostItemState extends State<PostItem> {
   late int pageLength;
   late int currentPageIndex;
-  late double initRatio;
 
   PageController mController = PageController();
 
@@ -30,7 +32,6 @@ class PostItemState extends State<PostItem> {
   void initState() {
     pageLength = 1 + Random().nextInt(5);
     currentPageIndex = 0;
-    initRatio = range[Random().nextInt(16)] * 0.1;
 
     super.initState();
   }
@@ -47,16 +48,16 @@ class PostItemState extends State<PostItem> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              children: const [
-                CircleAvatar(
+              children: [
+                const CircleAvatar(
                   radius: 15,
                   backgroundImage: NetworkImage(
                       'https://www.woolha.com/media/2020/03/eevee.png'),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 5,
                 ),
-                Text('100sucoding'),
+                Text(widget.post.authorName),
               ],
             ),
             const Icon(Icons.subject),
@@ -64,12 +65,12 @@ class PostItemState extends State<PostItem> {
         ),
       ),
       AspectRatio(
-        aspectRatio: initRatio,
+        aspectRatio: widget.post.firstPicWidth / widget.post.firstPicHeight,
         child: Stack(children: [
           PageView.builder(
             itemBuilder: (BuildContext context, int index) {
               return Image.network(
-                images[Random().nextInt(5)],
+                widget.post.firstPicUrl,
                 fit: BoxFit.cover,
               );
             },
@@ -149,11 +150,15 @@ class PostItemState extends State<PostItem> {
             ],
           )),
       Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
           width: MediaQuery.of(context).size.width,
           color: Colors.white10,
-          child: const Text(
-              "CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT CONTENT ")),
+          child: Text(widget.post.title)),
+      Container(
+          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+          width: MediaQuery.of(context).size.width,
+          color: Colors.white10,
+          child: Text(widget.post.content)),
       Container(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           width: MediaQuery.of(context).size.width,

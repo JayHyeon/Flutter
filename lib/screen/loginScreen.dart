@@ -2,7 +2,10 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:mypetdiary/container/mainContainer.dart';
 import 'package:mypetdiary/dialog/alertDialog.dart';
+import 'package:get/get.dart';
+import 'package:mypetdiary/global.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -44,12 +47,9 @@ class LoginScreenState extends State<LoginScreen> {
     jsonObject["pw"] = data['pw'];
     jsonObject["name"] = data['name'];
 
-    storage.write(key: "login", value: jsonEncode(jsonObject).toString());
-  }
-
-  void showLoginInfo() async {
-    String? jsonString = await storage.read(key: "login");
-    Map<String, dynamic> loginInfo = jsonDecode(jsonString!);
+    storage
+        .write(key: "login", value: jsonEncode(jsonObject).toString())
+        .then((value) => {Get.off(const MainContainer())});
   }
 
   @override
@@ -79,21 +79,14 @@ class LoginScreenState extends State<LoginScreen> {
               controller: pwController,
             )),
         Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: OutlinedButton(
-              onPressed: () {
-                requestLogin();
-              },
-              child: const Text("Login"),
-            )),
-        Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-            child: OutlinedButton(
-              onPressed: () {
-                showLoginInfo();
-              },
-              child: const Text("Show"),
-            )),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          child: OutlinedButton(
+            onPressed: () {
+              requestLogin();
+            },
+            child: const Text("Log in"),
+          ),
+        ),
       ],
     );
   }

@@ -32,15 +32,21 @@ class MainContainerState extends State<MainContainer> {
     )
   ];
 
-  List screens = [
-    const HomeScreen(),
-    const GridScreen(),
-    const WishScreen(),
-    const MypageScreen()
-  ];
+  void indexChangeCallback(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    List screens = [
+      const HomeScreen(),
+      const GridScreen(),
+      const WishScreen(),
+      MypageScreen(indexChangeCallback: indexChangeCallback)
+    ];
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('메인페이지'),
