@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mypetdiary/screen/gridScreen.dart';
+import 'package:mypetdiary/screen/socialMediaScreen.dart';
 import 'package:mypetdiary/screen/homeScreen.dart';
 import 'package:mypetdiary/screen/mypageScreen.dart';
 import 'package:mypetdiary/screen/wishScreen.dart';
@@ -19,8 +19,8 @@ class MainContainerState extends State<MainContainer> {
       icon: Icon(Icons.home_filled),
     ),
     const BottomNavigationBarItem(
-      label: 'Grid',
-      icon: Icon(Icons.grid_view),
+      label: 'SNS',
+      icon: Icon(Icons.social_distance),
     ),
     const BottomNavigationBarItem(
       label: 'Wish',
@@ -42,16 +42,12 @@ class MainContainerState extends State<MainContainer> {
   Widget build(BuildContext context) {
     List screens = [
       const HomeScreen(),
-      const GridScreen(),
+      const SocialMediaScreen(),
       const WishScreen(),
       MypageScreen(indexChangeCallback: indexChangeCallback)
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('메인페이지'),
-        centerTitle: true,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,

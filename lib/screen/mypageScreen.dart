@@ -29,19 +29,15 @@ class MypageScreenState extends State<MypageScreen> {
   void loginCheck() async {
     getLoginInfo().then((res) => {
           if (res.isNotEmpty)
-            {
-              setState(() {
-                visibleLoginBtn = false;
-                visibleLogoutBtn = true;
-              })
-            }
+            setState(() {
+              visibleLoginBtn = false;
+              visibleLogoutBtn = true;
+            })
           else
-            {
-              setState(() {
-                visibleLoginBtn = true;
-                visibleLogoutBtn = false;
-              })
-            }
+            setState(() {
+              visibleLoginBtn = true;
+              visibleLogoutBtn = false;
+            })
         });
   }
 

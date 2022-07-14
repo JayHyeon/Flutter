@@ -5,7 +5,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mypetdiary/container/mainContainer.dart';
 import 'package:mypetdiary/dialog/alertDialog.dart';
 import 'package:get/get.dart';
-import 'package:mypetdiary/global.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
