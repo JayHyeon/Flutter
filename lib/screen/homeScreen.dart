@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:mypetdiary/widget/home/homeTopSearchWidget.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:mypetdiary/models/homeCategoryModel.dart';
 import 'package:mypetdiary/screen/homeFollowScreen.dart';
@@ -89,48 +90,7 @@ class HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top + 5, left: 10, right: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                  child: Container(
-                      color: const Color(0xffEEEEEE),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: const [
-                            Icon(
-                              Icons.search_outlined,
-                              size: 20,
-                            ),
-                            Text(
-                              "마이펫다이어리 통합검색",
-                              style: TextStyle(
-                                  fontSize: 14, color: Color(0xff666666)),
-                            )
-                          ],
-                        ),
-                      ))),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                child: Icon(
-                  Icons.bookmark_border_outlined,
-                  size: 28,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(right: 10),
-                child: Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 28,
-                ),
-              ),
-            ],
-          ),
-        ),
+        const HomeTopSearchWidget(),
         SizedBox(
             height: 40,
             child: ScrollablePositionedList.separated(

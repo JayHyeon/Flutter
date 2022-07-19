@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mypetdiary/widget/common/HorizontalDivider.dart';
 import 'package:mypetdiary/widget/home/popular/homePopularGridMenuWidget.dart';
 import 'package:mypetdiary/widget/home/popular/homePopularPageviewWidget.dart';
+import 'package:mypetdiary/widget/home/popular/homePopularWithPetLifeWidget.dart';
 
 class HomePopularScreen extends StatefulWidget {
   const HomePopularScreen({Key? key}) : super(key: key);
@@ -13,18 +15,20 @@ class HomePopularScreenState extends State<HomePopularScreen> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView(shrinkWrap: true, children: [
-        Column(mainAxisAlignment: MainAxisAlignment.center, children: const [
-          HomePopularPageviewWidget(),
-          HomePopularGridMenuWidget(),
-          Divider(
-            thickness: 8,
-            color: Color(0xfff2f2f2),
-          ),
-          HomePopularGridMenuWidget(),
-          HomePopularGridMenuWidget(),
-        ])
-      ]),
+      child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(0),
+          children: [
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  HomePopularPageviewWidget(),
+                  HomePopularGridMenuWidget(),
+                  HorizontalDivider(height: 8),
+                  HomePopularWithPetLifeWidget(),
+                  HomePopularGridMenuWidget(),
+                ])
+          ]),
     );
   }
 }
