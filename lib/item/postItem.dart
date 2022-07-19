@@ -18,14 +18,6 @@ class PostItemState extends State<PostItem> {
 
   PageController mController = PageController();
 
-  List<String> images = [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa2tbCr7gezhFKEnWHBogLgawwdLXF8-vosA&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTK0IS7rxVYqDHm1a___wZLArB7ld5LHWmOXA&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgW7xqbvhpV8Siyy8ytEzwTuCnNBfYC03xKQ&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMVyeldDaPI_3jvWk4qcryRJWUB60PCIdBw&usqp=CAU',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1rQbRDR8lndYo14gTs_X-aR6MnTLNeARrD-44qlHhu-luAGlnuSMBO1dOdmzfjHrrfZU&usqp=CAU',
-  ];
-
   List range = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   @override
@@ -34,6 +26,12 @@ class PostItemState extends State<PostItem> {
     currentPageIndex = 0;
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    mController.dispose();
+    super.dispose();
   }
 
   @override

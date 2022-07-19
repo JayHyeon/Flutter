@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:mypetdiary/models/homeCategoryModel.dart';
 import 'package:mypetdiary/screen/homeFollowScreen.dart';
 import 'package:mypetdiary/screen/homePopularScreen.dart';
@@ -12,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class HomeScreenState extends State<HomeScreen> {
   var selectedScreen;
+  final itemScrollController = ItemScrollController();
 
   List<HomeCategory> categories = [
     HomeCategory(
@@ -60,7 +63,7 @@ class HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
-  void selectedCategory(index) {
+  void selectedCategory(index, context) {
     var tmpList = categories;
     for (int i = 0; i < categories.length; i++) {
       tmpList[i].color = Colors.black;
@@ -74,6 +77,12 @@ class HomeScreenState extends State<HomeScreen> {
       categories = tmpList;
       selectedScreen = categories[index].screen;
     });
+
+    itemScrollController.scrollTo(
+        index: (index) % categories.length,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeIn,
+        alignment: 0.5);
   }
 
   @override
@@ -123,47 +132,49 @@ class HomeScreenState extends State<HomeScreen> {
           ),
         ),
         SizedBox(
-          height: 40,
-          child: ListView.builder(
-            itemCount: categories.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                  onTap: () => {selectedCategory(index)},
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                child: Center(
-                                    child: Text(categories[index].text,
-                                        style: TextStyle(
-                                            color: categories[index].color))))),
-                        Container(
-                            height: 2,
-                            color: categories[index].lineColor,
-                            child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 12),
-                                child: Text(
-                                  categories[index].text,
-                                  style: const TextStyle(
-                                      color: Colors.transparent),
-                                )))
-                      ]));
-            },
-          ),
-        ),
+            height: 40,
+            child: ScrollablePositionedList.separated(
+              itemCount: categories.length,
+              scrollDirection: Axis.horizontal,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                    onTap: () => {selectedCategory(index, context)},
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: Center(
+                                      child: Text(categories[index].text,
+                                          style: TextStyle(
+                                              color:
+                                                  categories[index].color))))),
+                          Container(
+                              height: 2,
+                              color: categories[index].lineColor,
+                              child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12),
+                                  child: Text(
+                                    categories[index].text,
+                                    style: const TextStyle(
+                                        color: Colors.transparent),
+                                  )))
+                        ]));
+              },
+              itemScrollController: itemScrollController,
+              separatorBuilder: (BuildContext context, int index) =>
+                  const Padding(padding: EdgeInsets.all(0)),
+            )),
         Container(
           width: double.infinity,
           height: 1,
           color: Colors.black12,
         ),
-        Container(
-          child: selectedScreen,
-        )
+        selectedScreen,
       ],
     );
   }

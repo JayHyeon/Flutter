@@ -38,6 +38,8 @@ dependencies:
   scrolling_page_indicator: ^0.1.2
   cloud_firestore: ^3.2.1
   flutter_secure_storage: ^5.0.2
+  scrollable_positioned_list: ^0.3.2
+  cached_network_image: ^3.2.1
 
 dev_dependencies:
   flutter_test:
